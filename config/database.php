@@ -59,7 +59,7 @@ return [
             'driver' => 'mysql',
             'host'      => 'fms.cgdusg8c4gk9.us-east-1.rds.amazonaws.com',
             'database'  => 'fms',
-            'username'  => 'DB_USERNAME','Root',
+            'username'  => 'Root',
             'password'  => 'CSTRoot7!',
             'port'      => '3306',
             'charset' => 'utf8',
