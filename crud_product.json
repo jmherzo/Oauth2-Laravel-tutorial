@@ -1,0 +1,42 @@
+{
+    "fields": [
+        {
+            "name": "product",
+            "type": "string"
+        },
+        {
+            "name": "code",
+            "type": "string"
+        },
+        {
+            "name": "description",
+            "type": "text"
+        },
+        {
+            "name": "buyPrice",
+            "type": "double"
+        },
+        {
+            "name": "sellPrice",
+            "type": "double"
+        }
+    ],
+    "validations": [
+        {
+            "field": "product",
+            "rules": "required"
+        },
+        {
+            "field": "code",
+            "rules": "required"
+        },
+        {
+            "field": "buyPrice",
+            "rules": "required"
+        },
+        {
+            "field": "sellPrice",
+            "rules": "required"
+        }
+    ]
+}
