@@ -9,7 +9,7 @@ if (!empty($_SERVER['RDS_HOSTNAME'])) {
     define('DB_DEFAULT', $_SERVER['DB_DEFAULT']);
 
  }
- 
+
 return [
 
     /*
@@ -66,8 +66,8 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host'      => env('DB_HOSTNAME','RDS_HOSTNAME'),
-            'database'  => env('DB_NAME','RDS_DB_NAME'),
+            'host'      => env('DB_HOST','RDS_HOSTNAME'),
+            'database'  => env('DB_DATABASE','RDS_DB_NAME'),
             'username'  => env('DB_USERNAME','RDS_USERNAME'),
             'password'  => env('DB_PASSWORD','RDS_PASSWORD'),
             'port'      => '3306',
