@@ -1,14 +1,5 @@
 <?php
 
-if (!empty($_SERVER['RDS_HOSTNAME'])) {
-
-    define('RDS_HOSTNAME', $_SERVER['RDS_HOSTNAME']);
-    define('RDS_USERNAME', $_SERVER['RDS_USERNAME']);
-    define('RDS_PASSWORD', $_SERVER['RDS_PASSWORD']);
-    define('RDS_DB_NAME', $_SERVER['RDS_DB_NAME']);
-    define('DB_DEFAULT', $_SERVER['DB_DEFAULT']);
-
- }
 
 return [
 
@@ -66,10 +57,10 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host'      => env('DB_HOST','RDS_HOSTNAME'),
-            'database'  => env('DB_DATABASE','RDS_DB_NAME'),
-            'username'  => env('DB_USERNAME','RDS_USERNAME'),
-            'password'  => env('DB_PASSWORD','RDS_PASSWORD'),
+            'host'      => env('DB_HOST'),
+            'database'  => env('DB_DATABASE'),
+            'username'  => env('DB_USERNAME'),
+            'password'  => env('DB_PASSWORD'),
             'port'      => '3306',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
