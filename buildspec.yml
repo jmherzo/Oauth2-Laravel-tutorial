@@ -4,23 +4,6 @@ phases:
    commands:
      - |
          export DEBIAN_FRONTEND=noninteractive
-         apt-get update
-         # Install PHP
-         apt-get install -y php7.1\
-                  php7.1-ldap \
-                  php7.1-xml \
-                  php7.1-xmlrpc \
-                  php7.1-zip \
-                  php7.1-mbstring \
-                  php7.1-mcrypt \
-                  php7.1-gd \
-                  php7.1-readline \
-                  php7.1-opcache \
-                  php7.1-xdebug \
-                  php7.1-dom \
-                  php-xdebug \
-                  php7.1-curl \
-                  unzip
 
          #Install composer
          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
