@@ -1,0 +1,118 @@
+{
+    "fields": [
+        {
+            "name": "policy",
+            "type": "string"
+        },
+        {
+            "name": "section_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "role1",
+            "type": "boolean"
+        },
+        {
+            "name": "role2",
+            "type": "boolean"
+        },
+        {
+            "name": "role3",
+            "type": "boolean"
+        },
+        {
+            "name": "role4",
+            "type": "boolean"
+        },
+        {
+            "name": "role5",
+            "type": "boolean"
+        },
+        {
+            "name": "role6",
+            "type": "boolean"
+        },
+        {
+            "name": "role7",
+            "type": "boolean"
+        },
+        {
+            "name": "role8",
+            "type": "boolean"
+        },
+        {
+            "name": "role9",
+            "type": "boolean"
+        },
+        {
+            "name": "role10",
+            "type": "boolean"
+        },
+        {
+            "name": "role11",
+            "type": "boolean"
+        },
+        {
+            "name": "role12",
+            "type": "boolean"
+        },
+        {
+            "name": "role13",
+            "type": "boolean"
+        },
+        {
+            "name": "role14",
+            "type": "boolean"
+        },
+        {
+            "name": "role15",
+            "type": "boolean"
+        },
+        {
+            "name": "role16",
+            "type": "boolean"
+        },
+        {
+            "name": "role17",
+            "type": "boolean"
+        },
+        {
+            "name": "role18",
+            "type": "boolean"
+        },
+        {
+            "name": "role19",
+            "type": "boolean"
+        },
+        {
+            "name": "role20",
+            "type": "boolean"
+        },
+        {
+            "name": "role21",
+            "type": "boolean"
+        },
+        {
+            "name": "role22",
+            "type": "boolean"
+        }
+
+    ],
+    "foreign_keys": [
+        {
+            "column": "section_id",
+            "references": "id",
+            "on": "sections"
+        }
+    ],
+    "validations": [
+        {
+            "field": "policy",
+            "rules": "required"
+        },
+        {
+            "field": "section_id",
+            "rules": "required"
+        }
+    ]
+}

@@ -1,2 +1,3 @@
-# Privilegios Laravel
-Implementacion de usuarios con distintos tipos de privilegios en Laravel
+# Users and privileges with Laravel + MySQL
+## IT Department @ Caribbean Sky Tours
+Implementation of different privileges of users in Laravel

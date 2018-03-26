@@ -7,9 +7,12 @@
                 <div class="card">
                     <div class="card-header">Product</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/product/create') }}" class="btn btn-success btn-sm" title="Add New Product">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
+                        @can('create', App\Product::class)
+                            <a href="{{ url('/admin/product/create') }}" class="btn btn-success btn-sm" title="Add New Product">
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                            </a>
+                        @endcan
+                        
 
                         <form method="GET" action="{{ url('/admin/product') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
                             <div class="input-group">

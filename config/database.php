@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     /*
@@ -54,20 +53,6 @@ return [
             'strict' => true,
             'engine' => null,
         ],
-
-        // 'mysql' => [
-        //     'driver' => 'mysql',
-        //     'host'      => 'fms.cgdusg8c4gk9.us-east-1.rds.amazonaws.com',
-        //     'database'  => 'fms',
-        //     'username'  => 'Root',
-        //     'password'  => 'CSTRoot7!',
-        //     'port'      => '3306',
-        //     'charset' => 'utf8',
-        //     'collation' => 'utf8_unicode_ci',
-        //     'prefix' => '',
-        //     'strict' => true,
-        //     'engine' => null,
-        // ],
 
         'pgsql' => [
             'driver' => 'pgsql',

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -38,18 +39,23 @@
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
                         <li class="nav-item">
-                                <a class="nav-link " href="product" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a class="nav-link " href="/admin/product" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Products
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="section" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a class="nav-link " href="/admin/section" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Sections
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="privileges" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a class="nav-link " href="/admin/privileges" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Roles
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="/admin/policies" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Policies
                                 </a>
                             </li>
                             <li class="nav-item dropdown">

@@ -1,11 +1,11 @@
 <div class="col-md-3">
-    <div class="card">
+    <div class="card" id="sidebarCard">
         <div class="card-header">
             Sidebar
         </div>
 
         <div class="card-body">
-            <ul class="nav" role="tablist">
+            <ul  role="tablist">
                 <li role="presentation">
                     <a href="{{ url('/home') }}">
                         Home
@@ -24,6 +24,11 @@
                 <li role="presentation">
                     <a href="{{ url('/admin/privileges') }}">
                         Roles
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="{{ url('/admin/policies') }}">
+                        Policies
                     </a>
                 </li>
             </ul>
