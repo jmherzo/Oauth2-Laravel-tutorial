@@ -19,10 +19,10 @@ phases:
                   php7.1-gd \
                   php7.1-xdebug \
                   php-xdebug \
-                  php7.1-curl \
-
+                  php7.1-curl
+         
          php --version
-
+         
          #Enable xdebug - phpunit uses this for code coverage
          phpenmod xdebug
 
