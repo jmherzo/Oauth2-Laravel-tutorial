@@ -7,20 +7,20 @@ phases:
 
          #Install php7.1
          apt-get update
-         #apt-get install -y  software-properties-common
+         apt-get install -y  software-properties-common
          LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
          apt-get update
 
          # Install PHP
-         apt-get install -y php7.1\
-                  php7.1-xml \
-                  php7.1-zip \
-                  php7.1-mysql \
-                  php7.1-mbstring \
-                  php7.1-gd \
-                  php7.1-xdebug \
+         apt-get install -y php7.2\
+                  php7.2-xml \
+                  php7.2-zip \
+                  php7.2-mysql \
+                  php7.2-mbstring \
+                  php7.2-gd \
+                  php7.2-xdebug \
                   php-xdebug \
-                  php7.1-curl
+                  php7.2-curl
          
          php --version
 
