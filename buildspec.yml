@@ -7,7 +7,8 @@ phases:
 
          #Install php7.1
          apt-get update
-         add-apt-repository -y ppa:ondrej/php
+         apt-get install -y  software-properties-common
+         LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
          apt-get update
 
          # Install PHP
@@ -22,7 +23,7 @@ phases:
                   php7.1-curl
          
          php --version
-         
+
          #Enable xdebug - phpunit uses this for code coverage
          phpenmod xdebug
 
