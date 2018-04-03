@@ -142,22 +142,30 @@ class ProductController extends Controller
 
     public function store(Request $req)
     {
-        $product = Product::create($request->all());
+        $product = Product::create($req->all());
         return response()->json($product, 201);
     }
 
     public function update(Request $req, Product $product)
     {
         $product->update($req->all());
+        // $product->name = $request->input('name');
+        // $product -> save();
         return response()->json($product, 200);
     }
 
     public function delete(Product $product)
     {
         $product->delete();
-        return response()->json("Deleted",204);
+
+        $data = array(
+            'message' => 'Deleted',
+            'id' => $product->id
+        );
+        return response()->json($data,200);
     }
 }
+
 
 
 ```
@@ -174,4 +182,38 @@ Route::get('products/{product}','ProductController@show');
 Route::post('products','ProductController@store');
 Route::put('products/{product}','ProductController@update');
 Route::delete('products/{product}','ProductController@delete');
+```
+
+To make a test you can use [postman](https://www.getpostman.com) or curl in your terminal. For curl in your terminal with python use:
+
+```sh
+$ curl -X GET http://localhost:8001/api/products | python -m json.tool
+
+```
+
+### **Sending 404 NOT FOUND as an API**
+
+We will change the handle class /app/Exceptions/Handler.php to return a JSON. We will modify the render method which is responsible for converting a given exception into an HTTP response that should be sent back to the browser. 
+
+The render method will be modified as follows:
+
+```php
+/**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    public function render($request, Exception $exception)
+    {
+        /**This if will check fot the 404 not found when the API is accessed */
+        /**Instanceof is a comparison operator */
+        if($exception instanceof ModelNotFoundException && $request->wantsJson()){
+            return response()->json([
+                'data'=>'Resource not found'
+            ], 404);
+        }
+        
+        return parent::render($request, $exception);
 ```

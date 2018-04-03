@@ -24,19 +24,26 @@ class ProductController extends Controller
 
     public function store(Request $req)
     {
-        $product = Product::create($request->all());
+        $product = Product::create($req->all());
         return response()->json($product, 201);
     }
 
     public function update(Request $req, Product $product)
     {
         $product->update($req->all());
+        // $product->name = $request->input('name');
+        // $product -> save();
         return response()->json($product, 200);
     }
 
     public function delete(Product $product)
     {
         $product->delete();
-        return response()->json("Deleted",204);
+
+        $data = array(
+            'message' => 'Deleted',
+            'id' => $product->id
+        );
+        return response()->json($data,200);
     }
 }
