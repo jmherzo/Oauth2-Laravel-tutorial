@@ -12,6 +12,17 @@ class ProductController extends Controller
      * model binding which makes easier the query for a 
      * specific product inside the controller
     */
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         return Product::all();

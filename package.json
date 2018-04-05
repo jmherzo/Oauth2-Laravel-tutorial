@@ -18,5 +18,10 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "express": "^4.16.3",
+        "gulp": "^3.9.1",
+        "node-rest-client": "^3.1.0"
     }
 }
