@@ -12,11 +12,6 @@
                     </a>
                 </li>
                 <li role="presentation">
-                    <a href="{{ url('/admin/product') }}">
-                        Products
-                    </a>
-                </li>
-                <li role="presentation">
                     <a href="{{ url('/admin/section') }}">
                         Sections
                     </a>

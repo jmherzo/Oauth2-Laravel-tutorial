@@ -19,7 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('admin/product', 'Admin\\ProductController');
 Route::resource('admin/section', 'Admin\\SectionController');
 Route::resource('admin/privileges', 'Admin\\PrivilegesController');
 Route::resource('admin/policies', 'Admin\\PoliciesController');
