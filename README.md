@@ -2,20 +2,21 @@
 
 This tutorial will show how to implement and configure a restful API service to receive and respond to an API call using tokenization and the Oauth2.0 flow.
 
-### **Requirements**
+## Requirements
 
 | Software           | Version   |
 | ------------------ | --------- |
 | PHP                | >= 7.1.0  |
 | Composer           | >= 1.6.3  |
 | MySQL              | >= 5.7.21 |
-| Node               | >= 8.11.1 |
+| NodeJS             | >= 8.11.1 |
 | NPM                | >= 5.6.0  |
 | Visual Studio Code | >= 1.21.1 |
+| Postman            | >= 6.0.10 |
 
 >This tutorial assumes that you are using Laravel 5.6.0 and that you have previous experience using Laravel and PHP.
 
-### **Set up**
+## Set up
 
 Create the models and the migrations, in this case we will create a **Product** model and migration.
 
@@ -50,7 +51,7 @@ Finally go to app/Product.php model file and add these attributes to the $fillab
 protected $fillable = ['name', 'description', 'code', 'buyPrice', 'sellPrice'];
 ```
 
-### **Seeding the Products table**
+## Seeding the Products table
 
 We will create a simple seeder file to fill the products table and retrieve the data later on:
 
@@ -80,7 +81,7 @@ class ProductsTableSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        for ($i = 0; $i < 5; $i++) 
+        for ($i = 0; $i < 5; $i++)
         {
             Product::create([
                 'name' => $faker->word,
@@ -100,7 +101,7 @@ Run the command to seed:
 php artisan db:seed --class=ProductsTableSeeder
 ```
 
-### **Creating the controller for the API**
+## Creating the controller for the API
 
 Now we will create our controller and the endpoints inside routes/api.php, to access our API.
 
@@ -122,9 +123,9 @@ use App\Product;
 
 class ProductController extends Controller
 {
-    /** Using the variable {product} in the API, is possible 
+    /** Using the variable {product} in the API, is possible
      * to use implicit route
-     * model binding which makes easier the query for a 
+     * model binding which makes easier the query for a
      * specific product inside the controller
     */
     public function index()
@@ -132,7 +133,7 @@ class ProductController extends Controller
         return Product::all();
     }
 
-    public function show(Product $product)/** The argument is the ID*/ 
+    public function show(Product $product)/** The argument is the ID*/
     {
         return $product;
     }
@@ -162,16 +163,13 @@ class ProductController extends Controller
         return response()->json($data,200);
     }
 }
-
-
-
 ```
 
-Now go to routes/api.php and copy:
+Now go to **routes/api.php** and copy:
 
 ```PHP
 /** Using the variable {product}, is possible to use implicit route
- * model binding which makes easier the query for a 
+ * model binding which makes easier the query for a
  * specific product ID inside the controller
 */
 Route::get('products','ProductController@index');
@@ -185,104 +183,131 @@ To make a test you can use [postman](https://www.getpostman.com) or curl in your
 
 ```sh
 curl -X GET http://localhost:8001/api/products | python -m json.tool
-
 ```
 
-### **Sending 404 NOT FOUND, the right way**
+## Sending 404 NOT FOUND, the right way
 
-We will add a function to routes/api.php and we will add a new file to /resources/views/errors/404.blade.php
+We will add a route to **routes/api.php** and we will add a new file to **resources/views/errors/404.blade.php**.
 
-The render method will be modified as follows:
+First we will add a new route with the suffix "fallback" in **routes/api.php** to make it default for any kind of request that is not found.
 
 ```php
-/**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-    /**This if will check fot the 404 not found when the API is accessed */
-    /**Instanceof is a comparison operator */
-    if($exception instanceof ModelNotFoundException && $request->wantsJson()){
-        return response()->json([
-            'data'=>'Resource not found'
-        ], 404);
-    }
-
-    return parent::render($request, $exception);
+// Default route when the page is not found
+Route::fallback(function(){
+    return response()->json(['message' => 'Resource not Found'], 404);
+});
 ```
 
-PASSPORT
+And now we will create a file in **resources/views/errors/404.blade.php** with this content:
 
+```php
+@extends('layouts.app')
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Page not found</h1>
+        </div>
+    </div>
+</div>
+@endsection
+```
+
+## Passport
+
+The first thing is to type in your Terminal:
+
+```sh
 composer require passport
+```
 
-add to config/app.php the service provider
-    Laravel\Passport\PassportServiceProvider::class
+Go to **config/app.php** and in the service providers section add this line:
 
-php artisan migrate, to migrate tables that the passport provider has.
+```php
+Laravel\Passport\PassportServiceProvider::class
+```
 
+Go back to your terminal and run:
 
-run: php artisan passport:install
-(to generate a key to create access tokens)
+```sh
+php artisan migrate
+```
 
-go to /app/user.php and add
+In this way we will migrate tables that the passport provider needs.
 
-use Laravel\Passport\HasApiTokens; at the top and also
+Also run in terminal:
 
+```sh
+php artisan passport:install
+```
+
+to generate a key to create access tokens, this files will save automatically in the storage folder.
+
+We need to modify **app/User.php**, adding these 2 lines:
+
+```php
+//At the top
+use Laravel\Passport\HasApiTokens;
+
+//This line will go inside the User class
 use HasApiTokens, Notifiable;
+```
 
+Now go to **app/providers/AuthServideProviders.php**
+and add:
 
-Now go to app/providers/AuthServideProviders.php
-add at the top:
-
+```php
+//At the top of the file
 use Laravel\Passport\Passport;
 
-and inside the method boot add:
-
+//Inside the method boot add:
 Passport::routes();
+```
 
-Go to config/sauth.php and change the api driver from token to passport.
+Go to **config/auth.php** and change the api driver from ***token*** to ***passport***.
 
-You can test the app by registering a user.
+>Test the app by registering a user in the web browser.
 
-Now you need to be able to create a token so that our users can register their own applications (named create a client or oauth client), passport has prebuilt components.
+The next step is to create a token so that our users can register their own applications (usually called create a **client** or **oauth client**), for this step **Passport** has prebuilt components with ***vue.js***.
 
-run:
+Go to your terminal and run:
 
-$ php artisan vendor:publish --tag=passport-components
+```sh
+php artisan vendor:publish --tag=passport-components
+```
 
-Ensure that you have installed node and npm, run:
+>Ensure that you have installed **NodeJS** and **NPM**
 
-$ npm install 
-(to install all the frontend components and required dependencies)
+In your terminal run:
 
-$npm run dev
-(for propduction we would use npm run production)
+```sh
+npm install
+npm run dev
+```
 
-Go to resources/assets/js/app.js and copy the following to add the vue components
+To install all the frontend components and required dependencies and to compile all the required files (for propduction we would use npm run production).
+
+Go to **resources/assets/js/app.js** and copy the following to add the vue components to your UI.
 
 ```javascript
-    Vue.component(
-        'passport-clients', 
-        require('./components/passport/Clients.vue')
-    );
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
 
 
-    Vue.component(
-        'passport-authorized-clients', 
-        require('./components/passport/AuthorizedClients.vue')
-    );
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
 
-    Vue.component(
-        'passport-personal-access-tokens', 
-        require('./components/passport/PersonalAccessTokens.vue')
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
 );
 ```
 
-Now go to resources/views/home.blade.php and copy:
+Now go to **resources/views/home.blade.php** and copy:
 
 ```html
 @extends('layouts.app')
@@ -312,11 +337,20 @@ Now go to resources/views/home.blade.php and copy:
 </div>
 @endsection
 ```
-Creating a consumer client application
 
-$ npm install express node-rest-client
+### **Creating a consumer client application**
 
-In the root project folder (/) create a file called client.js and copy this:
+We will recreate a thrid party client application that requiere access to our API and that is going to use the Oauth2.0 flow.
+
+>The first recommendation is to see how the Oauth2.0 flow works so you should check this quick youtube video [OAuth 2.0: An Overview](https://www.youtube.com/watch?v=CPbvxxslDTU)
+
+To create the third party client, the first thing is to install, inside the project folder, this dependencies:
+
+```sh
+npm install express node-rest-client --save-dev
+```
+
+In the root project folder (/) create a file called **client.js** and copy this NodeJS example server:
 
 ```javascript
 const express = require('express');
@@ -349,7 +383,7 @@ app.get('/', (req,res)=>{
 
 app.get('/redirect', (req,res)=>{
     var args = {
-        data: { 
+        data: {
             grant_type : "authorization_code",
             client_id : oauthId ,
             client_secret : oauthClientSecret,
@@ -360,7 +394,7 @@ app.get('/redirect', (req,res)=>{
     };
 
     client.post(tokenUri, args, function (data, response) {
-        // parsed response body as JS object 
+        // parsed response body as JS object
         console.log(data);
         res.json(data); // Respond of the GET expressjs method
     });
@@ -371,28 +405,53 @@ app.listen(port, function(){
 });
 ```
 
-now run:
+This all you need to set up your NodeJS server, you can run in your terminal:
 
-$node client.js
+```sh
+node client.js
+```
 
-and open the browser in the nodeJS homepage i.e. http://localhost:3000/
-With this you will see a access_token and a refresh_tokens, which gives access to the client application to the restful API. Also you can see in your laravel app, login page, a section where the app is registered and is called Authorized clients.
+To make it work, open your preference browser, open developer tools console and got to the NodeJS homepage.
 
-Creating a Personal Access token
+> i.e. <http://localhost:3000/>
+
+With this you will see an **access_token** and a **refresh_tokens**, which gives access to the client application to the restful API. Also you can see in your laravel app, in the login page, a section where the app is registered; this section is called **Authorized clients**.
+
+### **Creating a Personal Access token**
 
 Sometimes our clients would not want to go through the whole oauth 2.0 flow, so with this method they can get a token just with their user credentials. Basically it creates an access token in the UI.
 
-- You just need to go to your login home page and select "Create new token" in the Personal access Token section.
+>You just need to go to your login home page and select "*Create new token*" in the **Personal access Token section**.
 
-# Protect your API routes with auth
+## Protect your API routes with auth middleware
 
-Got to routes/api.php and modify it like this:
+Got to **routes/api.php** and modify it like this:
 
 ```php
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    /** Using the variable {product}, is possible to use implicit route
+     * model binding which makes easier the query for a
+     * specific model inside the controller
+    */
+    Route::get('products','ProductController@index');
+    Route::get('products/{product}','ProductController@show');
+    Route::post('products','ProductController@store');
+    Route::put('products/{product}','ProductController@update');
+    Route::delete('products/{product}','ProductController@delete');
+});
 ```
 
-Go to postman and create a get request, in authorization select Bearer token and in Headers type the Accept:application/json
+## Testing
 
-last:
+Go to Postman and create a get request, in authorization select Bearer token, copy the token and in Headers, click on bulk edit and type the following: **Accept:application/json**.
 
-https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/14?autoplay=true
+>An example of a GET address is <http://localhost:8001/api/products>
+
+## Useful Links
+
+- [Implementing an Restful API with Laravel](https://www.toptal.com/laravel/restful-laravel-api-tutorial)
+- [Laravel Passport in Laravel 5.3](https://laracasts.com/series/whats-new-in-laravel-5-3/episodes/13)
